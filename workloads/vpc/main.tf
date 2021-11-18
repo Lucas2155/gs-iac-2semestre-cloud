@@ -1,0 +1,22 @@
+module vpc-openfinance {
+  source = "../"
+  env = "sandbox"
+  app = "openfinance"
+  projeto = "openfinance"
+  requerente = "openfinance"
+  eks_name = "openfinance"
+  modalidade = "finance"
+  name_vpc = "openfinance"
+  cidr_vpc = "10.0.0.0/16"
+  instance_tenancy = "default"
+  enable_dns_support = true
+  enable_dns_hostnames = true
+  enable_classiclink = false
+  cidr_bloc_0_dmz = "10.0.0.0/24"
+  cidr_bloc_1_dmz = "10.0.1.0/24"
+  cidr_bloc_2_dmz = "10.0.2.0/24"
+  cidr_bloc_0_app = "10.0.3.0/24"
+  cidr_bloc_1_app = "10.0.4.0/24"
+  cidr_bloc_2_app = "10.0.5.0/24"
+  cluster-name = "openfinance"
+}
