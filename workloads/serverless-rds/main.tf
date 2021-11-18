@@ -6,18 +6,18 @@ provider "aws" {
 # Data sources to get VPC and subnets
 ######################################
 
-data "aws_vpc" "default" {
+data aws_vpc vpc {
   filter {
-    name = "tag:Name"
-    values = ["EHUB Pre"]
+    name   = "tag:Name"
+    values = ["gs-vpc"]
   }
 }
 
-data "aws_subnet_ids" "all" {
+data aws_subnet_ids private {
   vpc_id = data.aws_vpc.vpc.id
   filter {
-    name = "tag:Type"
-    values = ["app"]
+    name   = "tag:Name"
+    values = ["gs-vpc-app*"]
   }
 }
 
@@ -25,7 +25,7 @@ data "aws_subnet_ids" "all" {
 # RDS Aurora
 #############
 module "aurora" {
-  source                = "git::https://bbce0256@dev.azure.com/bbce0256/Infra%20as%20Code%20-%20BBCE/_git/postgress-serverless"
+  source                = "../../modules/rds-serverless/"
   name                  = "aurora-serverless"
   engine                = "aurora"
   engine_mode           = "serverless"
@@ -34,8 +34,8 @@ module "aurora" {
 
   backtrack_window = 10 # ignored in serverless
 
-  subnets                         = data.aws_subnet_ids.all.ids
-  vpc_id                          = data.aws_vpc.default.id
+  subnets                         = data.aws_subnet_ids.private.ids
+  vpc_id                          = data.aws_vpc.vpc.id
   monitoring_interval             = 60
   instance_type                   = "db.r4.large"
   apply_immediately               = true
@@ -71,7 +71,7 @@ resource "aws_rds_cluster_parameter_group" "aurora_cluster_postgres96_parameter_
 resource "aws_security_group" "app_servers" {
   name        = "app-servers"
   description = "For application servers"
-  vpc_id      = data.aws_vpc.default.id
+  vpc_id      = data.aws_vpc.vpc.id
 }
 
 resource "aws_security_group_rule" "allow_access" {

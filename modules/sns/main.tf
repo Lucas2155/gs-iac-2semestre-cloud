@@ -23,3 +23,12 @@ EOF
   tags = var.tags
 
 }
+
+output "aws_sns_topic" {
+  value = [
+            aws_sns_topic.user_updates.id,
+            aws_sns_topic.user_updates.*
+          ]
+
+  
+}

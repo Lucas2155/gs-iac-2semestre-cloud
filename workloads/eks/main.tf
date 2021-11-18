@@ -1,7 +1,7 @@
 data aws_vpc vpc {
   filter {
     name   = "tag:Name"
-    values = ["openfinance"]
+    values = ["gs-vpc"]
   }
 }
 
@@ -9,7 +9,7 @@ data aws_subnet_ids private {
   vpc_id = data.aws_vpc.vpc.id
   filter {
     name   = "tag:Name"
-    values = ["openfinance-app*"]
+    values = ["gs-vpc-app*"]
   }
 }
 output vpcs {
@@ -37,8 +37,8 @@ provider "kubernetes" {
 }
 
 module "eks" {
-  source                               = "git@gitlab.com:omnifinance/openfinance-fcamara-iac-modules/module-aws-eks-openfinance.git"
-  cluster_name                         = "openfinance-sandbox"
+  source                               = "../../modules/eks/"
+  cluster_name                         = "gs-vpc"
   subnets                              = data.aws_subnet_ids.private.ids
   vpc_id                               = data.aws_vpc.vpc.id
   map_roles                            = var.map_roles
@@ -53,33 +53,31 @@ module "eks" {
       instance_type                 = "%{if var.env == "prod" || var.env == "stress-test"}${var.AWS_TYPE_INSTANCE}%{else}t3.2xlarge%{endif}"
       asg_max_size                  = "%{if var.env == "prod" || var.env == "stress-test"}${var.DMAXEKS}%{else}1%{endif}"
       asg_desired_capacity          = "%{if var.env == "prod" || var.env == "stress-test"}${var.DMIN}%{else}1%{endif}"
-      kubelet_extra_args            = "--node-labels=dmz=microservices"
-      key_name                      = "eks-openfinance-sandbox"
+      key_name                      = "eks-lab-cloudit"
 
     },
     {
       instance_type                 = "%{if var.env == "prod" || var.env == "stress-test"}${var.AWS_TYPE_INSTANCE}%{else}t3.2xlarge%{endif}"
       asg_max_size                  = "%{if var.env == "prod" || var.env == "stress-test"}${var.DMAXEKS}%{else}2%{endif}"
       asg_desired_capacity          = "%{if var.env == "prod" || var.env == "stress-test"}${var.DMIN}%{else}2%{endif}"
-      kubelet_extra_args            = "--node-labels=app=microservices"
-      key_name  = "eks-openfinance-sandbox"
+      key_name  = "eks-lab-cloudit"
 
     }
   ]
   tags = {
-    Name                                                   = "openfinance-sandbox"
+    Name                                                   = "shared"
     Terraform                                              = true
-    APP                                                    = "openfinance"
-    Projeto                                                = "openfinance"
-    Requerente                                             = "openfinance"
+    APP                                                    = "gs-vpc"
+    Projeto                                                = "gs-vpc"
+    Requerente                                             = "gs-vpc"
     Ambiente                                               = "sandbox"
-    "kubernetes.io/cluster/openfinance-sandbox" = "openfinance"
+    "kubernetes.io/cluster/shared" = "shared"
 
   }
 }
 
 module "start-stop-node-dmz" {
-  source                      = "git@gitlab.com:omnifinance/openfinance-fcamara-iac-modules/schedule-start-stop.git"
+  source                      = "../../modules/start-stop-node/"
   env                         = "sandbox"
   scheduled_action_name_start = "start"
   scheduled_action_name_stop  = "stop"
@@ -89,7 +87,7 @@ module "start-stop-node-dmz" {
 }
 
 module "start-stop-node-app" {
-  source                      = "git@gitlab.com:omnifinance/openfinance-fcamara-iac-modules/schedule-start-stop.git"
+  source                      = "../../modules/start-stop-node/"
   env                         = "sandbox"
   scheduled_action_name_start = "start-app"
   scheduled_action_name_stop  = "stop-app"

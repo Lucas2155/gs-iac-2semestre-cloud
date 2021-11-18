@@ -1,12 +1,12 @@
-module vpc-openfinance {
-  source = "../"
+module gs-vpc {
+  source = "../../modules/vpc/"
   env = "sandbox"
-  app = "openfinance"
-  projeto = "openfinance"
-  requerente = "openfinance"
-  eks_name = "openfinance"
-  modalidade = "finance"
-  name_vpc = "openfinance"
+  app = "gs-vpc"
+  projeto = "gs-vpc"
+  requerente = "gs-vpc"
+  eks_name = "gs-vpc"
+  modalidade = "gs-vpc"
+  name_vpc = "gs-vpc"
   cidr_vpc = "10.0.0.0/16"
   instance_tenancy = "default"
   enable_dns_support = true
@@ -18,5 +18,5 @@ module vpc-openfinance {
   cidr_bloc_0_app = "10.0.3.0/24"
   cidr_bloc_1_app = "10.0.4.0/24"
   cidr_bloc_2_app = "10.0.5.0/24"
-  cluster-name = "openfinance"
+  cluster-name = "gs-vpc"
 }

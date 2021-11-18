@@ -4,7 +4,7 @@ locals {
 }
 
 module "cloudfront" {
-  source = "../../iac/engine-aws-cloudfront/"
+  source = "../../modules/cloudfront/"
   comment             = "My awesome CloudFront"
   enabled             = true
   is_ipv6_enabled     = true

@@ -1,5 +1,5 @@
 provider "aws" {
-  region = "sa-east-1" # CloudFront expects ACM resources in us-east-1 region only
+  region = "us-east-1" # CloudFront expects ACM resources in us-east-1 region only
 
   # Make it faster by skipping something
   skip_get_ec2_platforms      = true

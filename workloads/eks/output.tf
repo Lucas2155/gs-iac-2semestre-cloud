@@ -15,23 +15,11 @@ output workers_asg_names {
 
 }
 
-output name-eks-openfinance {
+output name-eks {
   value = module.eks.NAME-AUTOSCALING.*
 }
 
 #######################SCHEDULE####################
 
-output "start-stop-node-dmz" {
-  value = [
-    module.start-stop-node-dmz.aws_autoscaling_schedule_start,
-    module.start-stop-node-dmz.aws_autoscaling_schedule_stop
-  ]
-}
 
-output "start-stop-node-app" {
-  value = [
-    module.start-stop-node-app.aws_autoscaling_schedule_start,
-    module.start-stop-node-app.aws_autoscaling_schedule_stop
-  ]
-}
 
