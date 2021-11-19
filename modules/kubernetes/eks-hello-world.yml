@@ -19,7 +19,7 @@ spec:
         - containerPort: 80
         env:
         - name: TITLE
-          value: "Welcome to AMAZON Kubernetes Service (EKS) FCAMARA"
+          value: "FIAP EKS APP-1 BACK END"
 ---
 apiVersion: v1
 kind: Service

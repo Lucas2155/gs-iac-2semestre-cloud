@@ -11,10 +11,10 @@ metadata:
 spec:
   tls:
   - hosts:
-    - hostname
+    - abd72cd8d8fd949d190f6c15f7733267-468285573.us-east-1.elb.amazonaws.com
     secretName: tls-secret
   rules:
-  - host: hostname
+  - host: abd72cd8d8fd949d190f6c15f7733267-468285573.us-east-1.elb.amazonaws.com
     http:
       paths:
       - path: /hello-world-one(/|$)(.*)

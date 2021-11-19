@@ -45,10 +45,10 @@ metadata:
 spec:
   tls:
   - hosts:
-    - af8e5fef358594011b1e34379c7690e9-1080430470.sa-east-1.elb.amazonaws.com
+    - abd72cd8d8fd949d190f6c15f7733267-468285573.us-east-1.elb.amazonaws.com
     secretName: tls-secret
   rules:
-  - host: af8e5fef358594011b1e34379c7690e9-1080430470.sa-east-1.elb.amazonaws.com
+  - host: abd72cd8d8fd949d190f6c15f7733267-468285573.us-east-1.elb.amazonaws.com
     http:
       paths:
       - path: /hello-world-two(/|$)(.*)
